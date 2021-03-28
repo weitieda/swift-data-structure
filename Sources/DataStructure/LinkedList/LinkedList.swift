@@ -12,10 +12,10 @@ public class LinkedList<T: Comparable> {
     public typealias Node = LinkedListNode<T>
 
     final public class LinkedListNode<T> {
-        var value: T
-        var next: LinkedListNode?
+        public var value: T
+        public var next: LinkedListNode?
 
-        init(value: T, next: LinkedListNode? = nil) {
+        public init(value: T, next: LinkedListNode? = nil) {
             self.value = value
             self.next = next
         }
