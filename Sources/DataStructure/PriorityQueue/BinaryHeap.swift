@@ -7,30 +7,30 @@
 
 import Foundation
 
-struct BinaryHeap<Element: Comparable>: PriorityQueue {
-    var count: Int { elements.count }
-    var isEmpty: Bool { elements.isEmpty }
+public struct BinaryHeap<Element: Comparable>: PriorityQueue {
+    public var count: Int { elements.count }
+    public var isEmpty: Bool { elements.isEmpty }
 
-    private(set) var elements = [Element]()
+    public private(set) var elements = [Element]()
     private var lastElementIndex: Int { elements.count - 1 }
     private let type: HeapType
 
-    init(type: HeapType = .min, elements: [Element] = []) {
+    public init(type: HeapType = .min, elements: [Element] = []) {
         self.type = type
         elements.forEach { add($0) }
     }
 
     // O(1)
-    func peek() -> Element? { elements.first }
+    public func peek() -> Element? { elements.first }
     
     // O(log(n))
-    mutating func add(_ element: Element) {
+    public mutating func add(_ element: Element) {
         elements.append(element)
         shiftUp(from: lastElementIndex)
     }
 
     // O(log(n))
-    mutating func remove(_ element: Element) -> Bool {
+    public mutating func remove(_ element: Element) -> Bool {
         guard !isEmpty else { return false }
         guard let index = elements.firstIndex(of: element) else { return false }
         remove(at: index)
@@ -38,7 +38,7 @@ struct BinaryHeap<Element: Comparable>: PriorityQueue {
     }
 
     // O(log(n))
-    mutating func poll() -> Element? {
+    public mutating func poll() -> Element? {
         guard !isEmpty else { return nil }
         elements.swapAt(0, lastElementIndex)
         defer { shiftDown(from: 0) }
@@ -46,7 +46,7 @@ struct BinaryHeap<Element: Comparable>: PriorityQueue {
     }
 
     // O(n)
-    mutating func clear() {
+    public mutating func clear() {
         elements.removeAll()
     }
 
@@ -122,11 +122,11 @@ struct BinaryHeap<Element: Comparable>: PriorityQueue {
 }
 
 extension BinaryHeap: CustomStringConvertible {
-    var description: String { elements.description }
+    public var description: String { elements.description }
 }
 
 extension BinaryHeap {
-    enum HeapType {
+    public enum HeapType {
         case min, max
     }
 }

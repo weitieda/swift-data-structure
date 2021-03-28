@@ -7,18 +7,18 @@
 
 import Foundation
 
-class BinaryNode<T: Comparable>: CustomStringConvertible {
-    var value: T
-    var left: BinaryNode?
-    var right: BinaryNode?
+public class BinaryNode<T: Comparable>: CustomStringConvertible {
+    public var value: T
+    public var left: BinaryNode?
+    public var right: BinaryNode?
 
-    init(value: T) {
+    public init(value: T) {
         self.value = value
     }
 
     /// Ref:
     /// https://github.com/raywenderlich/alg-materials/blob/editions/3.0/14-binary-search-tree/projects/final/BinarySearchTree.playground/Sources/BinaryNode.swift
-    var description: String {
+    public var description: String {
         diagram(for: self)
     }
 

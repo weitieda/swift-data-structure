@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol PriorityQueue: CustomStringConvertible {
+public protocol PriorityQueue: CustomStringConvertible {
     associatedtype Element: Comparable
 
     var count: Int { get }

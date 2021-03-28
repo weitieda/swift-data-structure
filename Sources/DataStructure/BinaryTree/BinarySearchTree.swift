@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct BinarySearchTree<T: Comparable> {
+public struct BinarySearchTree<T: Comparable> {
 
-    typealias Node = BinaryNode<T>
+    public typealias Node = BinaryNode<T>
 
-    private(set) var root: Node?
+    public private(set) var root: Node?
 
-    init(rootValue: T? = nil) {
+    public init(rootValue: T? = nil) {
         guard let value = rootValue else { return }
         self.root = Node(value: value)
     }
 
-    init(array: [T]) {
+    public init(array: [T]) {
         self.init(rootValue: array.first)
         for item in array.dropFirst() {
             insert(item)
@@ -26,7 +26,7 @@ struct BinarySearchTree<T: Comparable> {
     }
 
     @discardableResult
-    mutating func insert(_ value: T) -> Bool {
+    public mutating func insert(_ value: T) -> Bool {
         guard !contains(value) else { return false }
         guard let root = root else {
             self.root = Node(value: value)
@@ -36,12 +36,12 @@ struct BinarySearchTree<T: Comparable> {
         return true
     }
 
-    func search(_ value: T) -> Node? {
+    public func search(_ value: T) -> Node? {
         guard let root = root else { return nil }
         return search(parent: root, target: value)
     }
 
-    func contains(_ value: T) -> Bool {
+    public func contains(_ value: T) -> Bool {
         search(value) != nil
     }
 
@@ -54,21 +54,21 @@ struct BinarySearchTree<T: Comparable> {
     /// 3. Removing node with 2 children: replace with next biggest value (right side, left most || left side, right most)
     /// then remove next biggest then next biggest parent points to its right child
     @discardableResult
-    func remove(_ value: T) -> Bool {
+    public func remove(_ value: T) -> Bool {
         guard contains(value) else { return false }
         remove(node: root, value: value)
         return true
     }
 
-    func inOrderTraverse(completion: (T) -> Void) {
+    public func inOrderTraverse(completion: (T) -> Void) {
         inOrder(node: root) { completion($0) }
     }
 
-    func preOrderTraverse(completion: (T) -> Void) {
+    public func preOrderTraverse(completion: (T) -> Void) {
         preOrder(node: root) { completion($0) }
     }
 
-    func postOrderTraverse(completion: (T) -> Void) {
+    public func postOrderTraverse(completion: (T) -> Void) {
         postOrder(node: root) { completion($0) }
     }
 
@@ -155,7 +155,7 @@ struct BinarySearchTree<T: Comparable> {
 // MARK: - CustomStringConvertible
 
 extension BinarySearchTree: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         guard let root = root else { return "empty tree" }
         return String(describing: root)
     }

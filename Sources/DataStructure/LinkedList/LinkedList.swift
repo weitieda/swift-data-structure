@@ -7,11 +7,11 @@
 
 import Foundation
 
-final class LinkedList<T: Comparable> {
+public class LinkedList<T: Comparable> {
 
-    typealias Node = LinkedListNode<T>
+    public typealias Node = LinkedListNode<T>
 
-    final class LinkedListNode<T> {
+    final public class LinkedListNode<T> {
         var value: T
         var next: LinkedListNode?
 
@@ -21,9 +21,9 @@ final class LinkedList<T: Comparable> {
         }
     }
 
-    private(set) var head: Node?
+    public private(set) var head: Node?
 
-    var last: Node? {
+    public var last: Node? {
         guard var node = head else { return nil }
         while let next = node.next {
             node = next
@@ -31,7 +31,7 @@ final class LinkedList<T: Comparable> {
         return node
     }
 
-    convenience init(array: [T]) {
+    public convenience init(array: [T]) {
         self.init()
 
         guard let first = array.first else { return }
@@ -47,11 +47,11 @@ final class LinkedList<T: Comparable> {
         }
     }
 
-    func append(_ value: T) {
+    public func append(_ value: T) {
         append(Node(value: value))
     }
 
-    func append(_ node: Node) {
+    public func append(_ node: Node) {
         if let lastNode = last {
             lastNode.next = node
         } else {
@@ -61,7 +61,7 @@ final class LinkedList<T: Comparable> {
 }
 
 extension LinkedList: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         var s = "["
         var node = head
         while let nd = node {
