@@ -7,67 +7,83 @@
 
 import Foundation
 
-public class LinkedList<T: Comparable> {
+public final class LinkedListNode<Element> {
+    public var value: Element
+    public var next: LinkedListNode?
+    
+    public init(value: Element, next: LinkedListNode? = nil) {
+        self.value = value
+        self.next = next
+    }
+}
 
-    public typealias Node = LinkedListNode<T>
+public final class LinkedList<Element>: ExpressibleByArrayLiteral {
 
-    final public class LinkedListNode<T> {
-        public var value: T
-        public var next: LinkedListNode?
+    public typealias Node = LinkedListNode<Element>
+    
+    public private(set) var first: Node?
+    public private(set) var last: Node?
+    
+    public convenience init(arrayLiteral elements: Element...) {
+        self.init(array: elements)
+    }
 
-        public init(value: T, next: LinkedListNode? = nil) {
-            self.value = value
-            self.next = next
+    public init(array: [Element]) {
+        for element in array.reversed() {
+            let node = Node(value: element, next: first)
+            if first == nil {
+                first = node
+                last = first
+            } else {
+                first = node
+            }
+        }
+    }
+    
+    public func insertAtBeginning(_ value: Element) {
+        if first == nil {
+            first = Node(value: value)
+            last = first
+        } else {
+            let newFirst = Node(value: value, next: first)
+            first = newFirst
         }
     }
 
-    public private(set) var head: Node?
-
-    public var last: Node? {
-        guard var node = head else { return nil }
-        while let next = node.next {
-            node = next
-        }
-        return node
-    }
-
-    public convenience init(array: [T]) {
-        self.init()
-
-        guard let first = array.first else { return }
-        
-        var node = Node(value: first)
-        
-        append(node)
-        
-        for value in array[1...] {
-            let nextNode = Node(value: value)
-            node.next = nextNode
-            node = nextNode
-        }
-    }
-
-    public func append(_ value: T) {
-        append(Node(value: value))
-    }
-
-    public func append(_ node: Node) {
+    public func append(_ value: Element) {
+        let node = Node(value: value)
         if let lastNode = last {
             lastNode.next = node
         } else {
-            head = node
+            first = node
+        }
+        last = node
+    }
+}
+
+extension LinkedList: Sequence {
+    
+    public struct LinkedListIterator<Element>: IteratorProtocol {
+        var current: LinkedListNode<Element>?
+        
+        public mutating func next() -> LinkedListNode<Element>? {
+            defer { current = current?.next }
+            return current
         }
     }
+
+    public func makeIterator() -> LinkedListIterator<Element> {
+        return LinkedListIterator(current: first)
+    }
+    
 }
 
 extension LinkedList: CustomStringConvertible {
     public var description: String {
         var s = "["
-        var node = head
-        while let nd = node {
-            s += "\(nd.value)"
-            node = nd.next
-            if node != nil { s += ", " }
+        for node in self {
+            s += "\(node.value)"
+            if node.next != nil { s += ", " }
         }
         return s + "]"
     }

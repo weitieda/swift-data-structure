@@ -8,58 +8,51 @@
 import XCTest
 @testable import DataStructure
 
-class LinkedListTest: XCTestCase {
+final class LinkedListTest: XCTestCase {
 
-    func test_init() {
-        let list = LinkedList<Int>()
-
-        XCTAssertNil(list.head)
+    func test_initWithArrayLiteral() {
+        let list: LinkedList<Int> = [1, 3, 4]
+        XCTAssertEqual(list.description, "[1, 3, 4]")
     }
-
-    func test_headNode() {
-        let node = LinkedList<Int>.Node(value: 1)
-        let list = LinkedList<Int>()
-        list.append(node)
-
-        XCTAssertNotNil(list.head)
-        XCTAssertEqual(1, list.head!.value)
-        XCTAssertNil(list.head?.next)
-    }
-
-    func test_twoNodes() {
-        let firstNode = LinkedList<Int>.Node(value: 1)
-        let secondNode = LinkedList<Int>.Node(value: 2)
-
-        let list = LinkedList<Int>()
-        list.append(firstNode)
-        list.append(secondNode)
-
-        XCTAssertEqual(1, list.head?.value)
-        XCTAssertEqual(2, list.head?.next?.value)
-        XCTAssertNil(list.head?.next?.next)
-    }
-
+    
     func test_initWithEmptyArray() {
         let list = LinkedList(array: [Int]())
 
-        XCTAssertNil(list.head)
+        XCTAssertNil(list.first)
+        XCTAssertNil(list.last)
         XCTAssertEqual(list.description, "[]")
     }
-
-    func test_initWithNonEmptyArray() {
-        let list = LinkedList(array: [1, 2, 3])
-
-        XCTAssertEqual(1, list.head?.value)
-        XCTAssertEqual(2, list.head?.next?.value)
-        XCTAssertEqual(3, list.head?.next?.next?.value)
-        XCTAssertNil(list.head?.next?.next?.next?.next)
+    
+    func test_append() {
+        let list: LinkedList<Int> = []
+        
+        list.append(1)
+        XCTAssertEqual(list.description, "[1]")
+        XCTAssertEqual(try XCTUnwrap(list.first?.value), 1)
+        XCTAssertEqual(try XCTUnwrap(list.last?.value), 1)
+        
+        list.append(2)
+        XCTAssertEqual(list.description, "[1, 2]")
+        XCTAssertEqual(try XCTUnwrap(list.first?.value), 1)
+        XCTAssertEqual(try XCTUnwrap(list.last?.value), 2)
+        
+        list.append(3)
+        XCTAssertEqual(try XCTUnwrap(list.first?.value), 1)
+        XCTAssertEqual(try XCTUnwrap(list.last?.value), 3)
+        XCTAssertEqual(list.description, "[1, 2, 3]")
     }
+    
+    func test_insertAtBeginning() {
+        let list: LinkedList<Int> = []
+        
+        list.insertAtBeginning(0)
+        XCTAssertEqual(list.description, "[0]")
+        XCTAssertEqual(try XCTUnwrap(list.first?.value), 0)
+        XCTAssertEqual(try XCTUnwrap(list.last?.value), 0)
 
-    func test_description() {
-        let array = [1, 2, 3]
-        let list = LinkedList(array: array)
-        let toArray = list.description
-
-        XCTAssertEqual(toArray, "[1, 2, 3]")
+        list.insertAtBeginning(1)
+        XCTAssertEqual(list.description, "[1, 0]")
+        XCTAssertEqual(try XCTUnwrap(list.first?.value), 1)
+        XCTAssertEqual(try XCTUnwrap(list.last?.value), 0)
     }
 }
