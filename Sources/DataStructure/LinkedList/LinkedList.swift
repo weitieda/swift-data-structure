@@ -63,16 +63,17 @@ public final class LinkedList<Element>: ExpressibleByArrayLiteral {
 
 extension LinkedList: Sequence {
     
-    public struct LinkedListIterator<Element>: IteratorProtocol {
-        var current: LinkedListNode<Element>?
+    public struct LinkedListIterator: IteratorProtocol {
+        public typealias Element = Node
+        var current: Node?
         
-        public mutating func next() -> LinkedListNode<Element>? {
+        public mutating func next() -> Node? {
             defer { current = current?.next }
             return current
         }
     }
 
-    public func makeIterator() -> LinkedListIterator<Element> {
+    public func makeIterator() -> LinkedListIterator {
         return LinkedListIterator(current: first)
     }
     
