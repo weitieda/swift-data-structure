@@ -39,7 +39,7 @@ public final class LinkedList<Element>: ExpressibleByArrayLiteral {
             }
         }
     }
-    
+
     public func insertAtBeginning(_ value: Element) {
         if first == nil {
             first = Node(value: value)
@@ -88,4 +88,16 @@ extension LinkedList: CustomStringConvertible {
         }
         return s + "]"
     }
+	
+	var array: [Element] {
+		var result: [Element] = []
+		var n = first
+		
+		while let cur = n {
+			result.append(cur.value)
+			n = cur.next
+		}
+		
+		return result
+	}
 }
