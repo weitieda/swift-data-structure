@@ -9,6 +9,22 @@ import XCTest
 import DataStructure
 
 final class DoublyListNodeTest: XCTestCase {
+	func test_make_fromEmptyArray() {
+		let head = DoublyListNode.make([Int]())
+		
+		XCTAssertEqual(head?.val, nil)
+		XCTAssertEqual(head?.prev?.val, nil)
+		XCTAssertEqual(head?.next?.val, nil)
+	}
+	
+	func test_make_oneElement() {
+		let head = DoublyListNode.make([1])
+		
+		XCTAssertEqual(head?.val, 1)
+		XCTAssertEqual(head?.prev?.val, nil)
+		XCTAssertEqual(head?.next?.val, nil)
+	}
+	
 	func test_make_array() {
 		let head = DoublyListNode.make([1, 2, 3, 4])
 		
